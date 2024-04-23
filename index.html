@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>untitled</title>
+    <meta name="generator" content="TextMate http://macromates.com/" />
+    <meta name="author" content="Mert Yentur" />
+    <!-- Link do głównego arkusza stylów -->
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <!-- Link do arkusza stylów dla rotującego slidera -->
+    <link rel="stylesheet" type="text/css" href="rotating-slider.css" />
+    <style type="text/css">
+      body {
+        background: white;
+        font-family: "Roboto Slab", sans-serif;
+        font-weight: 300;
+        overflow: hidden;
+      }
+
+      .rotating-slider ul.slides li {
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 180px;
+        width: 250px;
+        /* Centrujemy zawartość w pionie */
+      }
+
+      .rotating-slider ul.slides li:nth-of-type(1) {
+        background: #3a5075;
+      }
+
+      .rotating-slider ul.slides li:nth-of-type(2) {
+        background: #497ac4;
+      }
+
+      .rotating-slider ul.slides li:nth-of-type(3) {
+        background: #497ac4;
+      }
+
+      .rotating-slider ul.slides li:nth-of-type(4) {
+        background: #a8d5ff;
+      }
+
+      .rotating-slider ul.slides li:nth-of-type(5) {
+        background: #b31347;
+      }
+
+      .rotating-slider ul.slides li:nth-of-type(6) {
+        background: #b5aca2;
+      }
+
+      .rotating-slider ul.slides li .inner {
+        box-sizing: border-box;
+        padding: 1em 1em;
+        height: 100%;
+        width: 100%;
+      }
+
+      .rotating-slider ul.slides p {
+        margin: 3px 0;
+      }
+
+      .rotating-slider ul.slides h2 {
+        margin: 0 0 15px 0;
+      }
+
+      #patientInfo div[id^="patientDetails"]:not(:first-child) {
+        display: none;
+    }
+    
+
+      .slideLabel {
+        display: block;
+        /* Zmieniamy na block */
+        margin-bottom: 5px;
+        /* Dodajemy odstęp między labelami */
+        cursor: pointer;
+        /* Dodajemy kursor jako wskaźnik */
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        color: white;
+        font-size: 32px;
+        transition: opacity 0.3s ease;
+        /* Dodajemy płynną animację zmiany przezroczystości */
+      }
+
+      .slideLabel.hidden {
+        opacity: 0;
+        /* Ukrywamy label z animacją */
+      }
+
+      .slideLabel.active {
+        background-color: #ccc;
+        /* Zmiana koloru tła aktywnego labela */
+      }
+
+      #circleLabels {
+        position: absolute;
+        top: 30%;
+        left: 10px;
+        color: white;
+        font-size: 32px;
+        transform: translateY(-50%);
+      }
+
+      .circleLabel {
+        position: absolute;
+        top: 200px;
+        color: white;
+        font-size: 32px;
+        display: none;
+        /* Dodajemy aby na początku ukryć wszystkie obrazki */
+        transition: opacity 0.3s ease;
+        /* Dodajemy płynną animację zmiany przezroczystości */
+      }
+
+      .circleLabel.active {
+        display: block;
+        /* Pokazujemy tylko aktywny obrazek */
+        opacity: 1;
+        /* Ustawiamy pełną przezroczystość dla aktywnego obrazka */
+      }
+
+      .circleLabel:hover {
+        opacity: 1;
+        /* Ustawiamy pełną przezroczystość dla obrazka przy najechaniu myszą */
+      }
+
+      .labelAndImage {
+        display: flex;
+        align-items: center;
+        /* Centrujemy zawartość w pionie */
+        margin-bottom: 10px;
+        /* Odstęp między etykietami i obrazkami */
+      }
+
+      .labelAndImage img {
+        margin-right: 10px;
+        /* Odstęp między obrazkiem a etykietą */
+        height: 32px;
+        /* Dostosuj wysokość obrazka do potrzeb */
+      }
+
+      .circle {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        /* Odstęp między kółkami */
+      }
+
+      .circle img {
+        width: 80%;
+        /* Dostosuj rozmiar ikon do potrzeb */
+        height: auto;
+      }
+
+      .icon {
+        background-color: red;
+        width: 30px;
+        height: 30px;
+      }
+
+      .circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Styl dla ikon w kółkach */
+      .icon-container {
+        position: absolute;
+        top: 144px;
+        left: -54px;
+        width: 514px;
+        height: 178%;
+        border-radius: 50%;
+        padding: 6px 0;
+      }
+
+      .icon-container1 {
+        position: absolute;
+        top: 144px;
+        left: -54px;
+        width: 514px;
+        height: 200%;
+        border-radius: 50%;
+        padding: 6px 0;
+        background-color: #1a2638;
+      }
+
+      .icon-container2 {
+        position: absolute;
+        top: 144px;
+        left: -54px;
+        width: 514px;
+        height: 200%;
+        border-radius: 50%;
+        padding: 6px 0;
+        background-color: #493a5075;
+      }
+
+      .icon-container3 {
+        position: absolute;
+        top: 144px;
+        left: -54px;
+        width: 514px;
+        height: 200%;
+        border-radius: 50%;
+        padding: 6px 0;
+        background-color: #1f59b1;
+      }
+
+      .icon-container4 {
+        position: absolute;
+        top: 144px;
+        left: -54px;
+        width: 514px;
+        height: 200%;
+        border-radius: 50%;
+        padding: 6px 0;
+        background-color: #8bc8ff;
+      }
+
+      .icon-container5 {
+        position: absolute;
+        top: 144px;
+        left: -54px;
+        width: 514px;
+        height: 200%;
+        border-radius: 50%;
+        padding: 6px 0;
+        background-color: #970835;
+      }
+
+      .icon-container6 {
+        position: absolute;
+        top: 144px;
+        left: -54px;
+        width: 514px;
+        height: 200%;
+        border-radius: 50%;
+        padding: 6px 0;
+        background-color: #978a7d;
+      }
+
+      /* Dodatkowe style dla różnych kółek */
+      .icon--1 {
+        width: 40px;
+      }
+
+      .icon--2 {
+        width: 40px;
+      }
+
+      .icon--3 {
+        width: 40px;
+      }
+
+      .icon--4 {
+        width: 40px;
+      }
+
+      .icon--5 {
+        width: 40px;
+      }
+
+      .icon--6 {
+        width: 40px;
+      }
+
+      /* Styl dla kontenera kółka */
+      .circle-container {
+        background-color: red;
+        border-radius: 50%;
+        overflow: hidden;
+        /* Zapobiega wyświetlaniu zawartości poza granicami kontenera */
+      }
+
+      #patientInfo {
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #ccc;
+        border-radius: 5px;
+        padding: 10px;
+      }
+    </style>
+    <script type="text/javascript" src="jquery.vj"></script>
+
+    <meta name="viewport" content="" />
+
+    <script type="text/javascript" src="index.vj"></script>
+    <script type="text/javascript" src="jquery.retina.js"></script>
+    <script type="text/javascript" src="fastclick.js"></script>
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
+    <link rel="stylesheet" href="css/froala_editor.css" />
+    <link rel="stylesheet" href="css/froala_style.css" />
+    <link rel="stylesheet" href="css/plugins/colors.css" />
+    <script type="text/javascript" src="js/froala_editor.min.js"></script>
+    <script type="text/javascript" src="js/plugins/save.min.js"></script>
+    <script type="text/javascript" src="js/plugins/colors.min.js"></script>
+    <script type="text/javascript" src="js/plugins/font_size.min.js"></script>
+    <script type="text/javascript" src="js/plugins/font_family.min.js"></script>
+    <script type="text/javascript" src="js/plugins/link.min.js"></script>
+    <script type="text/javascript" src="js/plugins/lists.min.js"></script>
+    <script src="handlebars-v4.0.10.js"></script>
+    <script src="textFit.min.js"></script>
+  </head>
+
+  <body>
+    <div class="rotating-slider">
+      <ul class="slides">
+        <li>
+          <div>
+            <div class="inner" onclick="toggleLabel('img/14.png', { firstName: 'Jan', lastName: 'Kowalski' })">
+                <h2>Gynäkologie</h2>
+              <p>
+                Schwangerschaft<br />
+                Hypermenorrhö
+              </p>
+              <div class="icon-container1">
+                <img class="icon--1" src="img/icon-1.png" alt="Icon 1" />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="inner" onclick="toggleLabel('img/79.png', { firstName: 'Tomasz', lastName: 'Nowak' })">
+              <h2>Kardiologie</h2>
+              <p>Herzinsuffizienz</p>
+              <div class="icon-container2">
+                <img class="icon--2" src="img/icon-2.png" alt="Icon 1" />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="inner" onclick="toggleLabel('img/1b.png', { firstName: 'Anna', lastName: 'Nowak' })">
+              <h2>Nephrologie</h2>
+              <p>CKD</p>
+              <div class="icon-container3">
+                <img class="icon--3" src="img/icon-3.png" alt="Icon 1" />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="inner" onclick="toggleLabel('img/1b.png', { firstName: 'Zofia', lastName: 'Nowak' })">
+              <h2>
+                Gastro-<br />
+                Enterologie
+              </h2>
+              <p>
+                IBD<br />
+                Crohn’s Disease
+              </p>
+              <div class="icon-container4">
+                <img class="icon--4" src="img/icon-4.png" alt="Icon 1" />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="inner" onclick="toggleLabel('img/2.png', { firstName: 'Stefan', lastName: 'Nowak' })">
+              <h2>Onkologie</h2>
+              <div class="icon-container5">
+                <img class="icon--5" src="img/icon-5.png" alt="Icon 1" />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="inner" onclick="toggleLabel('img/14.png', { firstName: 'Dominik', lastName: 'Nowak' })">
+              <h2>
+                Hausarzt-<br />
+                Medizin
+              </h2>
+              <p>PBM</p>
+              <div class="icon-container6">
+                <img class="icon--6" src="img/icon-6.png" alt="Icon 1" />
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="patientInfo">
+        <h2>Informacje o pacjentach</h2>
+        <div id="patientDetails1" class="patientDetails" data-patient="img/patient.png">
+          <img src="img/patient.png" alt=""/>
+          <p class="firstName">Jan</p>
+          <p class="lastName">Kowalski</p>
+        </div>
+        <div id="patientDetails2" class="patientDetails" data-patient="img/patient2.png">
+          <img src="img/patient2.png" alt=""/>
+          <p class="firstName">Tomasz</p>
+          <p class="lastName">Nowak</p>
+        </div>
+        <div id="patientDetails3" class="patientDetails" data-patient="img/patient3.png">
+          <img src="img/patient3.png" alt=""/>
+          <p class="firstName">Anna</p>
+          <p class="lastName">Nowak</p>
+        </div>
+        <div id="patientDetails4" class="patientDetails" data-patient="img/patient.png">
+          <img src="img/patient.png" alt=""/>
+          <p class="firstName">Dominik</p>
+          <p class="lastName">Nowak</p>
+        </div>
+        <div id="patientDetails5" class="patientDetails" data-patient="img/patient2.png">
+          <img src="img/patient2.png" alt=""/>
+          <p class="firstName">Stefan</p>
+          <p class="lastName">Nowak</p>
+        </div>
+        <div id="patientDetails6" class="patientDetails" data-patient="img/patient3.png">
+          <img src="img/patient3.png" alt=""/>
+          <p class="firstName">Zofia</p>
+          <p class="lastName">Nowak</p>
+        </div>
+      </div>
+      
+
+    <div id="circleLabels">
+      <label class="circleLabel active"><img src="img/14.png" alt=""/></label>
+      <label class="circleLabel"><img src="img/79.png" alt=""/></label>
+      <label class="circleLabel"><img src="img/1.png" alt=""/></label>
+      <label class="circleLabel"><img src="img/1b.png" alt=""/></label>
+      <label class="circleLabel"><img src="img/2.png" alt=""/></label>
+      <label class="circleLabel"><img src="img/14.png" alt=""/></label>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="jquery.rotating-slider.js"></script>
+    <script>
+      $(function () {
+        $(".rotating-slider").rotatingSlider({
+          autoRotate: true,
+          autoRotateInterval: 6000,
+          draggable: true,
+          directionControls: true,
+          directionLeftText: "&lsaquo;",
+          directionRightText: "&rsaquo;",
+          rotationSpeed: 750,
+          slideHeight: 180,
+          slideWidth: 240,
+        });
+      });
+    function toggleLabel(image, patientInfo) {
+  var label = document.querySelector(".circleLabel.active");
+  label.classList.remove("active");
+  
+  var allLabels = document.querySelectorAll(".circleLabel");
+  for (var i = 0; i < allLabels.length; i++) {
+    if (allLabels[i].querySelector("img").getAttribute("src") === image) {
+      allLabels[i].classList.add("active");
+      var patientDetails = document.querySelectorAll('.patientDetails');
+      // Ukryj wszystkich pacjentów
+      patientDetails.forEach(function(patient) {
+        patient.style.display = 'none';
+      });
+      // Pokaż aktywnego pacjenta
+      var activePatient = document.querySelector('#patientDetails' + (i + 1));
+      if (activePatient) {
+        activePatient.style.display = 'block';
+        activePatient.querySelector('p:nth-child(2)').innerText = patientInfo.firstName;
+        activePatient.querySelector('p:nth-child(3)').innerText = patientInfo.lastName;
+      }
+      break;
+    }
+  }
+}
+
+      
+    
+      
+    </script>
+  </body>
+</html>
